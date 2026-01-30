@@ -1,0 +1,42 @@
+<template>
+  <div class="slds-card calendar" style="position: relative;">
+    <c-calendar-header
+      month={currentMonth}
+      events={events}
+      onprev={prevMonth}
+      onnext={nextMonth}
+      ontoday={goToday}
+      onadd={openQuickAdd}
+      onsearch={handleSearch}
+      onsuggestselect={handleSuggestSelect}>
+    </c-calendar-header>
+
+    <c-calendar-month
+      month={currentMonth}
+      events={visibleEvents}
+      onselectday={selectDay}
+      oneventclick={openEvent}>
+    </c-calendar-month>
+
+    <template if:true={showPopover}>
+      <div style={popoverStyle}>
+        <c-event-popover
+          event={activeEvent}
+          date={activeDate}
+          onsave={saveEvent}
+          is-global-popover={isGlobalPopover}
+          ondelete={deleteEvent}
+          onclose={closePopover}>
+        </c-event-popover>
+      </div>
+    </template>
+
+    <template if:true={showQuickAdd}>
+      <c-quick-add-popover
+        date={activeDate}
+        onsave={quickSave}
+        onclose={closeQuickAdd}>
+      </c-quick-add-popover>
+    </template>
+  </div>
+</template>

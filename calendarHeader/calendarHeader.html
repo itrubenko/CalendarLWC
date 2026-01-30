@@ -1,0 +1,37 @@
+<template>
+    <div class="slds-grid slds-grid_align-spread calendar-header">
+        <div>
+            <lightning-button-icon icon-name="utility:chevronleft" onclick={prev}></lightning-button-icon>
+            <strong class="slds-m-horizontal_small">{label}</strong>
+            <lightning-button-icon icon-name="utility:chevronright" onclick={next}></lightning-button-icon>
+            <lightning-button label="Today" class="slds-m-left_small" onclick={today}></lightning-button>
+        </div>
+
+        <div class="slds-grid" style="position: relative;">
+            <!-- slds-grid_vertical-align-center -->
+            <lightning-button label="Add Event" variant="brand" onclick={add}>
+            </lightning-button>
+            <lightning-button class="slds-m-left_small" label="Add Event" variant="brand" onclick={add}>
+            </lightning-button>
+            <div style="position: relative;" class="slds-m-left_small">
+                <lightning-input label="Search" variant="label-hidden" type="search" placeholder="Search" value={searchValue} onchange={search} onfocus={updateSuggestions}>
+                </lightning-input>
+                <template if:true={showSuggestions}>
+                    <div class="slds-dropdown slds-dropdown_length-10 slds-dropdown_left" style="position: absolute; top: 100%; left: 0; width: 100%; z-index: 1000;">
+                        <ul class="slds-dropdown__list" role="menu">
+                            <template for:each={suggestions} for:item="event">
+                                <li key={event.id} class="slds-dropdown__item" onclick={selectSuggestion} data-event-id={event.id}>
+                                    <a href="#" role="menuitem" tabindex="0" class="slds-dropdown__link">
+                                        <span class="slds-truncate">{event.title}</span>
+                                        <span class="slds-text-body_small" style="display: block; color: #757575;">{event.date}</span>
+                                    </a>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+</template>

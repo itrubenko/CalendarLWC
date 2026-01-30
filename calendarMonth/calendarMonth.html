@@ -1,0 +1,9 @@
+<template>
+  <div class="slds-grid slds-wrap calendar-month">
+    <template for:each={days} for:item="day">
+      <c-calendar-day key={day.date} data={day} onselect={selectDay} oneventclick={openEvent}>
+      </c-calendar-day>
+    </template>
+  </div>
+
+</template>

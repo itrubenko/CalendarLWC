@@ -1,0 +1,61 @@
+<template>
+    <section class="slds-popover slds-popover_panel">
+        <!-- New Event Layout -->
+        <template if:true={isNewEvent}>
+            <h2 class="slds-text-heading_small slds-m-bottom_medium">Add event</h2>
+            <lightning-input
+                label="Event Name"
+                placeholder="Event Name"
+                value={title}
+                onchange={change}>
+            </lightning-input>
+            <lightning-input
+                type="date"
+                label="Day, month, year" 
+                value={date} 
+                onchange={change}>
+            </lightning-input>
+            <lightning-input 
+                label="Participants" 
+                placeholder="Participants"
+                value={participants} 
+                onchange={change}>
+            </lightning-input>
+            <lightning-textarea 
+                label="Description" 
+                placeholder="Description"
+                value={description} 
+                onchange={change}
+                class="slds-m-bottom_small">
+            </lightning-textarea>
+            <div class="slds-m-top_small slds-grid slds-grid_align-end">
+                <lightning-button label="Delete Event" variant="neutral" onclick={remove}></lightning-button>
+                <lightning-button label="Add Event" variant="brand" class="slds-m-left_small" onclick={save}></lightning-button>
+            </div>
+        </template>
+
+        <!-- Existing Event Layout -->
+        <template if:false={isNewEvent}>
+            <h2 class="slds-text-heading_small slds-m-bottom_medium">{title}</h2>
+            <div class="slds-m-bottom_medium">
+                <span class="slds-text-body_small" style="color: #0070d2; font-weight: 600;">{formattedDate}</span>
+            </div>
+            <template if:true={participants}>
+                <div class="slds-m-bottom_medium">
+                    <p class="slds-text-body_small" style="font-weight: 600; margin: 0;">Participants:</p>
+                    <p class="slds-text-body_small" style="margin: 0.25rem 0 0 0;">{participants}</p>
+                </div>
+            </template>
+            <lightning-textarea 
+                label="Description" 
+                value={description} 
+                onchange={change}
+                class="slds-m-bottom_small">
+            </lightning-textarea>
+            <div class="slds-m-top_small slds-grid slds-grid_align-end">
+                <lightning-button label="Delete Event" variant="neutral" onclick={remove}></lightning-button>
+                <lightning-button label="Add Event" variant="brand" class="slds-m-left_small" onclick={save}></lightning-button>
+            </div>
+        </template>
+    </section>
+</template>

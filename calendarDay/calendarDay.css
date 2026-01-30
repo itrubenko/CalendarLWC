@@ -1,0 +1,14 @@
+.day {
+    width: 204px;
+    height: 120px;
+    border: 1px solid #DADCE0;
+    padding: 0.5rem;
+
+    .label {
+        font-size: 14px;
+        font-weight: 400;
+        color: #717171;
+        margin-bottom: 1rem;
+    }
+}
+
