@@ -1,19 +1,28 @@
 import { LightningElement, api } from 'lwc';
 
+const getFormattedDate = (date) => {
+  return date.getFullYear() + '-' +
+    String(date.getMonth() + 1).padStart(2, '0') + '-' +
+    String(date.getDate()).padStart(2, '0');
+}
+
 export default class QuickAddPopover extends LightningElement {
-  @api date;
   @api isGlobalPopover;
   title = '';
 
   change(e) { this.title = e.target.value; }
 
-  save() {
+  handleSave() {
     this.dispatchEvent(new CustomEvent('save', {
       detail: {
         id: crypto.randomUUID(),
         title: this.title,
-        date: this.date
-      }
+        date: getFormattedDate(new Date()),
+        participants: '',
+        description: ''
+      },
+      bubbles: true,
+      composed: true
     }));
   }
 

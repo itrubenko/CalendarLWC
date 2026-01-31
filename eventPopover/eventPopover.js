@@ -67,11 +67,19 @@ export default class EventPopover extends LightningElement {
 
   save() {
     this.dispatchEvent(new CustomEvent('save', {
-      detail: { id: this.id, title: this.title, date: this.date, participants: this.participants, description: this.description }
+      detail: {
+        id: this.id,
+        title: this.title,
+        date: this.date,
+        participants: this.participants,
+        description: this.description
+      },
+      bubbles: true,
+      composed: true
     }));
   }
 
   remove() {
-    this.dispatchEvent(new CustomEvent('delete', { detail: this.id }));
+      this.dispatchEvent(new CustomEvent('delete', { detail: this.id }));
   }
 }

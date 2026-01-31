@@ -2,8 +2,31 @@ import { LightningElement, track } from 'lwc';
 
 const STORAGE_KEY = 'calendarEvents';
 
+const mockEvents = {
+  "2026-01-08": {
+    "id": "01e34806-413f-4980-a2f6-d58ea12ae163",
+    "date": "2026-01-08",
+    "title": "Test2",
+    "participants": "",
+    "description": "Descr Test2 33"
+  },
+  "2026-01-10": {
+    "id": "01e34806-413f-4980-a2f6-d58ea12ae163",
+    "title": "Test3",
+    "date": "2026-01-10",
+    "participants": "",
+    "description": "Descr Test2 33"
+  }
+};
+
+const getFormattedDate = (date) => {
+  return date.getFullYear() + '-' +
+    String(date.getMonth() + 1).padStart(2, '0') + '-' +
+    String(date.getDate()).padStart(2, '0');
+}
+
 export default class CalendarApp extends LightningElement {
-  @track events = [];
+  @track events = {};
   @track visibleEvents = [];
   currentMonth = new Date();
   search = '';
@@ -13,12 +36,12 @@ export default class CalendarApp extends LightningElement {
   showPopover = false;
   showQuickAdd = false;
   isGlobalPopover = true;
+  isQuickAddDisabled = false;
   popoverPosition = { top: 0, left: 0 };
 
   connectedCallback() {
-    this.events = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    console.log('From connectedCallback:', JSON.parse(localStorage.getItem(STORAGE_KEY)) );
-    console.log('Loaded events:', this.events);
+    this.events = JSON.parse(localStorage.getItem(STORAGE_KEY)) || mockEvents;
+    // this.isQuickAddDisabled = !!this.events[getFormattedDate(new Date())];
     this.filterEvents();
   }
 
@@ -27,15 +50,28 @@ export default class CalendarApp extends LightningElement {
   }
 
   persist() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.events));
+    // Ensure all events have properly formatted structure
+    const cleanedEvents = {};
+    Object.entries(this.events).forEach(([date, event]) => {
+      cleanedEvents[date] = {
+        id: event.id,
+        date: event.date,
+        title: event.title,
+        participants: event.participants || '',
+        description: event.description || ''
+      };
+    });
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanedEvents));
   }
 
   filterEvents() {
+    const allEvents = Object.values(this.events);
     this.visibleEvents = this.search
-      ? this.events.filter(e =>
+      ? allEvents.filter(e =>
           e.title.toLowerCase().includes(this.search.toLowerCase())
         )
-      : this.events;
+      : allEvents;
   }
 
   prevMonth() {
@@ -82,15 +118,7 @@ export default class CalendarApp extends LightningElement {
 
   selectDay(e) {
     this.activeDate = e.detail;
-    this.activeEvent = null;
-    this.showPopover = true;
-    // Calculate position after DOM updates
-    setTimeout(() => this.calculatePopoverPosition(), 0);
-  }
-
-  openEvent(e) {
-    this.activeEvent = e.detail;
-    this.activeDate = e.detail.date;
+    this.activeEvent = this.events[e.detail];
     this.showPopover = true;
     // Calculate position after DOM updates
     setTimeout(() => this.calculatePopoverPosition(), 0);
@@ -155,31 +183,33 @@ export default class CalendarApp extends LightningElement {
 
   saveEvent(e) {
     const evt = e.detail;
-    const idx = this.events.findIndex(x => x.id === evt.id);
-    idx >= 0 ? (this.events[idx] = evt) : this.events.push(evt);
-    this.persist();
-    this.filterEvents();
-    this.closePopover();
+    if (evt.date) {
+      this.events[evt.date] = evt;
+      this.persist();
+      this.filterEvents();
+      this.closePopover();
+      this.closeQuickAdd();
+    }
   }
 
   deleteEvent(e) {
-    this.events = this.events.filter(x => x.id !== e.detail);
-    this.persist();
-    this.filterEvents();
+    const eventIdToDelete = e.detail;
+    const dateToDelete = Object.keys(this.events).find(
+      date => this.events[date].id === eventIdToDelete
+    );
+    if (dateToDelete) {
+      delete this.events[dateToDelete];
+      this.persist();
+      this.filterEvents();
+    }
     this.closePopover();
   }
 
   openQuickAdd() {
-    this.activeDate = new Date().toISOString().split('T')[0];
+    this.activeDate = getFormattedDate(new Date());
     this.showQuickAdd = true;
   }
 
-  quickSave(e) {
-    this.events.push(e.detail);
-    this.persist();
-    this.filterEvents();
-    this.closeQuickAdd();
-  }
 
   closePopover() {
     this.showPopover = false;

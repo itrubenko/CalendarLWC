@@ -1,11 +1,16 @@
 import { LightningElement, api, track } from 'lwc';
-
+const getFormattedDate = (date) => {
+  return date.getFullYear() + '-' +
+    String(date.getMonth() + 1).padStart(2, '0') + '-' +
+    String(date.getDate()).padStart(2, '0');
+}
 export default class CalendarHeader extends LightningElement {
   @api month;
-  @api events = [];
+  @api events;
+  @api activeDate;
+  @api showQuickAdd;
   @track searchValue = '';
   @track suggestions = [];
-  @track showSuggestions = false;
 
   get label() {
     return this.month.toLocaleString('default', { month: 'long', year: 'numeric' });
@@ -24,7 +29,7 @@ export default class CalendarHeader extends LightningElement {
 
   updateSuggestions() {
     if (this.searchValue.trim()) {
-      this.suggestions = this.events.filter(event =>
+      this.suggestions = Object.values(this.events).filter(event =>
         event.title.toLowerCase().includes(this.searchValue.toLowerCase())
       );
       this.showSuggestions = this.suggestions.length > 0;
@@ -35,14 +40,18 @@ export default class CalendarHeader extends LightningElement {
   }
 
   selectSuggestion(e) {
-    const eventId = e.currentTarget.dataset.eventId;
-    const event = this.suggestions.find(s => s.id === eventId);
+    const eventDate = e.currentTarget.dataset.eventDate;
+    const event = this.events[eventDate];
     if (event) {
       this.dispatchEvent(new CustomEvent('suggestselect', { detail: event }));
       this.searchValue = '';
       this.suggestions = [];
       this.showSuggestions = false;
     }
+  }
+
+  handleClickQuickAddEvent(e) {
+    this.dispatchEvent(new CustomEvent('add'));
   }
 
   hideSuggestions() {

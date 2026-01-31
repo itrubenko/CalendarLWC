@@ -1,7 +1,17 @@
 <template>
-    {popoverClass}
-    <section class="slds-popover slds-popover_panel">
-        <lightning-input label="Event Name" onchange={change}></lightning-input>
-        <lightning-button label="Add Event" variant="brand" onclick={save}></lightning-button>
+    <section aria-label="Dialog title" aria-describedby="popover-body-id" class="slds-popover slds-popover_panel slds-nubbin_top slds-is-absolute"
+        role="dialog" style="padding: 1rem; margin-top: 40%;transform: translateX(-70%);">
+        <button
+            class="slds-button slds-button_icon slds-button_icon slds-button_icon-small slds-float_right slds-popover__close"
+            title="Close dialog">
+            <svg class="slds-button__icon" aria-hidden="true">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            </svg>
+            <span class="slds-assistive-text">Close dialog</span>
+        </button>
+        <div id="popover-body-id" class="slds-popover__body">
+            <lightning-input label="Event Name" onchange={change} variant="label-hidden"></lightning-input>
+            <lightning-button label="Add Event" variant="brand" onclick={handleSave}></lightning-button>
+        </div>
     </section>
 </template>

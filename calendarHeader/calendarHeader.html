@@ -7,12 +7,33 @@
             <lightning-button label="Today" class="slds-m-left_small" onclick={today}></lightning-button>
         </div>
 
-        <div class="slds-grid" style="position: relative;">
-            <!-- slds-grid_vertical-align-center -->
-            <lightning-button label="Add Event" variant="brand" onclick={add}>
-            </lightning-button>
-            <lightning-button class="slds-m-left_small" label="Add Event" variant="brand" onclick={add}>
-            </lightning-button>
+        <div class="slds-grid slds-align-center">
+            <div class="slds-m-right_small slds-is-relative">
+                <button class="slds-button slds-button_brand slds-theme_blue nav-button" onclick={handleEdit}>
+                    Edit
+                    <svg class="slds-button__icon slds-button__icon_right" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="slds-m-right_small slds-is-relative">
+                <button
+                    disabled={isQuickAddDisabled}
+                    class="slds-button slds-button_brand slds-theme_blue nav-button"
+                    onclick={handleClickQuickAddEvent}
+                >
+                    Add Event
+                    <svg class="slds-button__icon slds-button__icon_right" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#new"></use>
+                    </svg>
+                </button>
+                <template if:true={showQuickAdd}>
+                    <c-quick-add-popover></c-quick-add-popover>
+                </template>
+            </div>
+
+
             <div style="position: relative;" class="slds-m-left_small">
                 <lightning-input label="Search" variant="label-hidden" type="search" placeholder="Search" value={searchValue} onchange={search} onfocus={updateSuggestions}>
                 </lightning-input>
@@ -20,7 +41,7 @@
                     <div class="slds-dropdown slds-dropdown_length-10 slds-dropdown_left" style="position: absolute; top: 100%; left: 0; width: 100%; z-index: 1000;">
                         <ul class="slds-dropdown__list" role="menu">
                             <template for:each={suggestions} for:item="event">
-                                <li key={event.id} class="slds-dropdown__item" onclick={selectSuggestion} data-event-id={event.id}>
+                                <li key={event.id} class="slds-dropdown__item" onclick={selectSuggestion} data-event-date={event.date} data-event-id={event.id}>
                                     <a href="#" role="menuitem" tabindex="0" class="slds-dropdown__link">
                                         <span class="slds-truncate">{event.title}</span>
                                         <span class="slds-text-body_small" style="display: block; color: #757575;">{event.date}</span>

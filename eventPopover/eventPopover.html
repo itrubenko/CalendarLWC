@@ -1,7 +1,7 @@
 <template>
     <section class="slds-popover slds-popover_panel">
         <!-- New Event Layout -->
-        <template if:true={isNewEvent}>
+        <!-- <template if:true={isNewEvent}> -->
             <h2 class="slds-text-heading_small slds-m-bottom_medium">Add event</h2>
             <lightning-input
                 label="Event Name"
@@ -32,9 +32,9 @@
                 <lightning-button label="Delete Event" variant="neutral" onclick={remove}></lightning-button>
                 <lightning-button label="Add Event" variant="brand" class="slds-m-left_small" onclick={save}></lightning-button>
             </div>
-        </template>
+        <!-- </template> -->
 
-        <!-- Existing Event Layout -->
+        <!-- Existing Event Layout
         <template if:false={isNewEvent}>
             <h2 class="slds-text-heading_small slds-m-bottom_medium">{title}</h2>
             <div class="slds-m-bottom_medium">
@@ -56,6 +56,6 @@
                 <lightning-button label="Delete Event" variant="neutral" onclick={remove}></lightning-button>
                 <lightning-button label="Add Event" variant="brand" class="slds-m-left_small" onclick={save}></lightning-button>
             </div>
-        </template>
+        </template> -->
     </section>
 </template>

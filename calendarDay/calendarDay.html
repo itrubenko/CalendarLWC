@@ -1,10 +1,9 @@
 <template>
-    <div class="day" onclick={select} data-date={data.date}>
+    <div class="day" onclick={handleClick} data-date={data.date}>
         <div class="label">{data.day}</div>
 
         <template if:true={data.event}>
-            <c-event-card event={data.event} oneventclick={eventClick}>
-            </c-event-card>
+            <c-event-card event={data.event}></c-event-card>
         </template>
     </div>
 </template>

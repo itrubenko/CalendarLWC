@@ -1,6 +1,8 @@
 <template>
-  <div class="slds-card calendar" style="position: relative;">
+  <div class="slds-card calendar" style="position: relative;" onsave={saveEvent}>
     <c-calendar-header
+      active-date={activeDate}
+      show-quick-add={showQuickAdd}
       month={currentMonth}
       events={events}
       onprev={prevMonth}
@@ -8,14 +10,14 @@
       ontoday={goToday}
       onadd={openQuickAdd}
       onsearch={handleSearch}
+      onclose={closeQuickAdd}
       onsuggestselect={handleSuggestSelect}>
     </c-calendar-header>
 
     <c-calendar-month
       month={currentMonth}
-      events={visibleEvents}
-      onselectday={selectDay}
-      oneventclick={openEvent}>
+      events={events}
+      onselectday={selectDay}>
     </c-calendar-month>
 
     <template if:true={showPopover}>
@@ -23,7 +25,6 @@
         <c-event-popover
           event={activeEvent}
           date={activeDate}
-          onsave={saveEvent}
           is-global-popover={isGlobalPopover}
           ondelete={deleteEvent}
           onclose={closePopover}>
@@ -31,12 +32,5 @@
       </div>
     </template>
 
-    <template if:true={showQuickAdd}>
-      <c-quick-add-popover
-        date={activeDate}
-        onsave={quickSave}
-        onclose={closeQuickAdd}>
-      </c-quick-add-popover>
-    </template>
   </div>
 </template>
