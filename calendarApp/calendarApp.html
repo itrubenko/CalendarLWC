@@ -1,5 +1,5 @@
 <template>
-  <div class="slds-card calendar" style="position: relative;" onsave={saveEvent}>
+  <div class="slds-card calendar" style="position: relative;" onsave={handleSaveEvent}>
     <c-calendar-header
       show-quick-add={showQuickAdd}
       month={currentMonth}
@@ -20,7 +20,7 @@
       show-popover={showPopover}
       active-event={activeEvent}
       active-date={activeDate}
-      ondelete={deleteEvent}
+      ondelete={handleDeleteEvent}
       onclose={closePopover}>
     >
     </c-calendar-month>

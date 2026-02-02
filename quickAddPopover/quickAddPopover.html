@@ -3,24 +3,24 @@
         role="dialog" style="padding: 1rem; margin-top: 45%;transform: translateX(-65%);">
         <button
             class="slds-button slds-button_icon slds-button_icon slds-button_icon-small slds-float_right slds-popover__close"
-            title="Close dialog" onclick={handleCloseQuickPopover}>
+            title="Close dialog" onclick={handleClose}>
             <svg class="slds-button__icon" aria-hidden="true">
                 <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="slds-assistive-text">Close dialog</span>
         </button>
-        <div class="slds-popover__body">
+        <div class="slds-popover__body search-suggestions">
             <form onsubmit={handleFormSubmit}>
                 <input type="text"
                     name="eventName"
                     placeholder={placeholder}
                     class="slds-input slds-m-bottom_medium"
                     value={title}
-                    oninput={onInputEvent}
+                    oninput={handleInputChange}
                 />
 
                 <button disabled={isSubmitDisabled}
-                    class="slds-button slds-button_brand slds-theme_blue"
+                    class="slds-button slds-button_brand button_blue"
                 >
                     Add Event
                 </button>

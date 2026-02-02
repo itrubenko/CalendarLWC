@@ -1,9 +1,19 @@
 <template>
-    <div class="day" onclick={handleClick} data-date={data.date} data-has-event={data.hasEvent}>
-        <div class="label">{dateLabel}</div>
+    <div class="calendar-day"
+        onclick={handleClick}
+        data-date={data.date}
+        data-has-event={data.hasEvent}
+        data-is-holiday={data.isHoliday}
+    >
+        <div class="calendar-day__number">{dateLabel}</div>
+        <template if:true={data.isHoliday}>
+            <div class="calendar-day__holiday slds-text-align_center" title="Holiday">Holiday</div>
+        </template>
 
-        <template if:true={data.event}>
-            <c-event-card event={data.event}></c-event-card>
+        <template if:false={data.isHoliday}>
+            <template if:true={data.event}>
+                <c-event-card event={data.event}></c-event-card>
+            </template>
         </template>
     </div>
 </template>

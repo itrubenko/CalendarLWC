@@ -1,72 +1,49 @@
-.slds-popover__title {
-    font-size: 14px;
-    font-weight: 500;
+.slds-popover__form textarea,
+.slds-popover__form input {
+    border-color: #DDDBDA;
+    font-size: 12px;
 }
 
-.slds-popover__title-result {
-    font-size: 16px;
-    font-weight: bold;
+.slds-popover__form input:read-only {
+    background-color: #dddddd;
+    color: #a0a5aa;
+    cursor: not-allowed;
+    border: 1px solid #ddd;
+    padding-left: 10px;
 }
 
-.slds-popover__form {
-
-    textarea,
-    input {
-        border-color: #DDDBDA;
-        font-size: 12px;
-    }
-
-    input:read-only {
-        background-color: #dddddd;
-        color: #a0a5aa;
-        cursor: not-allowed;
-        border: 1px solid #ddd;
-        padding-left: 10px;
-    }
-
-    button {
-        font-size: 12px;
-    }
-
-    textarea {
-        height: 80px;
-    }
+.slds-popover__form button {
+    font-size: 12px;
 }
 
-.slds-theme_blue {
+.slds-popover__form textarea {
+    height: 80px;
+}
+
+.button_blue:not(:disabled) {
     background: #0C41FF;
     border-color: #0C41FF;
 }
 
-.slds-theme_blue:hover,
-.slds-theme_outline-blue:hover {
-    background: #00a472;
-    border-color: #00a472;
-    outline: none;
-}
-
-.slds-theme_outline-blue {
-    background: #fff;
-    border-color: #0C41FF;
-}
-
-.slds-theme_outline-blue:hover {
-    color: #fff;
-}
-
-.result-date {
+.event-popover__result-date {
     font-size: 14px;
     color: #333333;
 }
 
-.result-participants {
-    .title {
-        color: #717171;
-        font-size: 12px;
-    }
+.event-popover__result-participants {
+    display: flex;
+    flex-direction: column;
+}
 
-    .list {
-        font-size: 14px;
-    }
+.event-popover__result-participants-title {
+    color: #717171;
+    font-size: 12px;
+}
 
+.event-popover__result-participants-list {
+    font-size: 14px;
+}
+
+.slds-popover_panel.slds-nubbin_left-top {
+    --slds-g-color-neutral-base-95: white;
 }

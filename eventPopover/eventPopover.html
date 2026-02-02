@@ -1,59 +1,35 @@
 <template>
     <section
-        class="slds-popover slds-popover_panel slds-nubbin_left slds-is-absolute slds-p-vertical_small slds-p-horizontal_medium small-font">
+        class={popoverClass}
+        style={popoverStyle}>
         <form class="slds-form slds-popover__form" onsubmit={handleSubmit}>
-            <!-- TODO:change 2 -->
-             <template if:true={_event}>
-                <h2 class="slds-m-bottom_small slds-m-top_xx-small slds-popover__title-result">
-                    {_event.title}
-                </h2>
-            </template>
-            <template if:false={_event}>
-                <h2 class="slds-m-bottom_small slds-popover__title">
-                    Add event
-                </h2>
-            </template>
+            <h2 class="slds-m-bottom_small slds-popover__title">
+                <template if:true={event}>Update Event</template>
+                <template if:false={event}> Add event</template>
+            </h2>
 
             <div class="slds-popover__body">
                 <div class="slds-flex slds-flex_direction_column">
-                    <!-- <template if:true={_event}>
-                        <div class="slds-m-bottom_xx-small result-date">{formattedDate}</div>
-                        <template if:true={_event.participants}>
-                            <div class="result-participants">
-                                <span class="title">Participants:</span>
-                                <div class="list ">{_event.participants}</div>
-                            </div>
+                    <input oninput={handleInputChange} type="text" id="title" data-id="title" name="title" value={title} class="slds-input slds-m-bottom_medium" required
+                        placeholder="Event Name"/>
 
-                        </template>
-                         <template if:false={_event.participants}>
-                            <input type="text" data-id="participants" name="participants" class="slds-input slds-m-bottom_medium"
-                            placeholder="Participants" />
-                         </template>
-                        <textarea id="description" data-id="description" name="description" class="slds-textarea slds-m-bottom_medium slds-m-top_medium"
-                            placeholder="Description"></textarea>
-                    </template> -->
-                    <!-- <template if:false={_event}> -->
-                        <input onchange={change} type="text" id="title" data-id="title" name="title" value={title} class="slds-input slds-m-bottom_medium" required
-                            placeholder="Event Name"/>
+                    <input onchange={handleInputChange} type="date" data-id="date" name="date" class="slds-input slds-m-bottom_medium" value={date}
+                        placeholder="Day, month, year" readonly/>
 
-                        <input onchange={change} type="date" id="date" data-id="date" name="date" class="slds-input slds-m-bottom_medium" value={date}
-                            placeholder="Day, month, year" readonly/>
+                    <input onchange={handleInputChange} type="text" data-id="participants" name="participants" class="slds-input slds-m-bottom_medium"
+                        placeholder="Participants: Bob, Marly" value={participants} />
 
-                        <input onchange={change} type="text" data-id="participants" name="participants" class="slds-input slds-m-bottom_medium"
-                            placeholder="Participants" value={participants} />
-
-                        <textarea onchange={change} data-id="description" name="description" class="slds-textarea slds-m-bottom_medium"
-                            placeholder="Description">{description}</textarea>
-                    <!-- </template> -->
+                    <textarea onchange={handleInputChange} data-id="description" name="description" class="slds-textarea slds-m-bottom_medium"
+                        placeholder="Description">{description}</textarea>
 
                 </div>
                  <div class="slds-m-top_small slds-grid slds-grid_align-end">
-                    <button type="button" class="slds-button slds-button_outline-brand slds-theme_outline-blue"
-                        onclick={remove}>
+                    <button type="button" class="slds-button slds-button_outline-brand button_outline-blue"
+                        onclick={handleRemove}>
                             Delete Event
                     </button>
 
-                    <button type="submit" disabled={isDisabled} class="slds-button slds-button_brand slds-theme_blue slds-m-left_small">
+                    <button type="submit" disabled={isDisabled} class="slds-button slds-button_brand button_blue slds-m-left_small">
                         {getFormLabel}
                     </button>
                 </div>

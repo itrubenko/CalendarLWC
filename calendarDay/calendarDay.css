@@ -1,26 +1,33 @@
-.day {
+.calendar-day {
     width: 204px;
     height: 120px;
     border: 1px solid #DADCE0;
     padding: 0.5rem;
-
-    .label {
-        font-size: 14px;
-        font-weight: 400;
-        color: #717171;
-        margin-bottom: 1rem;
-    }
 }
 
-.day:hover {
+.calendar-day:hover {
     background-color: #EDE7D6;
 }
 
-.day:has(.event) {
+.calendar-day:has(.event) {
     background: #c7f5d9;
     cursor: pointer;
 }
 
-.day:has:hover {
-    background-color: initial;
+.calendar-day__number {
+    font-size: 14px;
+    font-weight: 400;
+    color: #717171;
+    margin-bottom: 1rem;
+}
+
+.calendar-day:has(.calendar-day__holiday) {
+    background: #F0F0F0;
+    font-size: 14px;
+    cursor: pointer;
+
+    .calendar-day__number {
+        font-weight: bold;
+        color: black;
+    }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="slds-grid slds-wrap calendar-month">
     <template for:each={days} for:item="day" for:index="index">
-      <div key={day.date} class="slds-is-relative">
+      <div key={day.date} class="slds-is-relative calendar-month__day-container">
         <c-calendar-day
           data={day}
           index={index}

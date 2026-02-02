@@ -1,18 +1,12 @@
 import { LightningElement, api } from 'lwc';
-
-
-const getFormattedDate = (date) => {
-  return date.getFullYear() + '-' +
-    String(date.getMonth() + 1).padStart(2, '0') + '-' +
-    String(date.getDate()).padStart(2, '0');
-}
-
+import { getFormattedDate } from 'c/utils';
 export default class CalendarMonth extends LightningElement {
   @api month;
   @api events;
   @api activeEvent;
   @api activeDate;
   @api showPopover;
+  popoverPosition = { top: 0, left: 0 };
 
   get days() {
     const start = new Date(this.month.getFullYear(), this.month.getMonth(), 1);
@@ -22,19 +16,33 @@ export default class CalendarMonth extends LightningElement {
     return Array.from({ length: 35 }).map((_, i) => {
       const d = new Date(firstMonday);
       d.setDate(d.getDate() + i);
-      const iso = getFormattedDate(d);
-      const event = this.events[iso] || null;
+      const date = getFormattedDate(d);
+      const event = this.events[date] || null;
+
       return {
-        date: iso,
+        date,
         day: d.getDate(),
         event,
+        isHoliday: !!event?.isHoliday,
         hasEvent: !!event,
-        isPopover: this.activeDate === iso && this.showPopover
+        isPopover: this.activeDate === date && this.showPopover
       };
     });
   }
 
   selectDay(e) {
     this.dispatchEvent(new CustomEvent('selectday', { detail: e.detail }));
+    this.calculatePopoverPosition(e.detail);
+  }
+
+  calculatePopoverPosition(dateStr) {
+    const dayContainer = this.template.querySelector(`[key="${dateStr}"]`);
+    if (dayContainer) {
+      const rect = dayContainer.getBoundingClientRect();
+      this.popoverPosition = {
+        top: rect.top,
+        left: rect.right + 10 // Position to the right with 10px gap
+      };
+    }
   }
 }

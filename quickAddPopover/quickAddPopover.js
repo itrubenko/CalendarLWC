@@ -1,11 +1,5 @@
 import { LightningElement, api } from 'lwc';
-
-const getFormattedDate = (date) => {
-  return date.getFullYear() + '-' +
-    String(date.getMonth() + 1).padStart(2, '0') + '-' +
-    String(date.getDate()).padStart(2, '0');
-}
-
+import { getFormattedDate } from 'c/utils';
 export default class QuickAddPopover extends LightningElement {
   title = '';
 
@@ -23,7 +17,7 @@ export default class QuickAddPopover extends LightningElement {
     return !this.title;
   }
 
-  handleCloseQuickPopover(e) {
+  handleClose(e) {
     this.dispatchEvent(
         new CustomEvent('close', {
             bubbles: true,
@@ -32,7 +26,7 @@ export default class QuickAddPopover extends LightningElement {
     );
   }
 
-  change(e) { this.title = e.target.value; }
+  handleInputChange(e) { this.title = e.target.value; }
 
   handleFormSubmit(e) {
     e.preventDefault();
@@ -47,9 +41,5 @@ export default class QuickAddPopover extends LightningElement {
       bubbles: true,
       composed: true
     }));
-  }
-
-  onInputEvent(e) {
-    this.title = e.target.value;
   }
 }

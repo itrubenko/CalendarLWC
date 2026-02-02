@@ -1,15 +1,15 @@
 <template>
     <div class="slds-grid slds-grid_align-spread calendar-header">
-        <div class="slds-grid slds-grid_vertical-align-center nav-left">
+        <div class="slds-grid slds-grid_vertical-align-center calendar-header__nav-left">
             <lightning-button-icon icon-name="utility:chevronleft" onclick={prev}></lightning-button-icon>
-            <div class="slds-m-horizontal_small calendar-header__label">{label}</div>
+            <div class="slds-m-horizontal_small calendar-header__label">{monthLabel}</div>
             <lightning-button-icon icon-name="utility:chevronright" onclick={next}></lightning-button-icon>
-            <button class="slds-m-left_small today" onclick={today}>Today</button>
+            <button class="slds-m-left_small calendar-header__today-btn" onclick={today}>Today</button>
         </div>
 
-        <div class="slds-grid slds-grid_vertical-align-center nav-right">
+        <div class="slds-grid slds-grid_vertical-align-center calendar-header__nav-right">
             <div class="slds-m-right_small">
-                <button class="slds-button slds-button_brand slds-theme_blue" onclick={handleEdit}>
+                <button class="slds-button slds-button_brand button_blue" onclick={handleEdit}>
                     Edit
                     <svg class="slds-button__icon slds-button__icon_right" aria-hidden="true">
                         <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
@@ -18,7 +18,7 @@
             </div>
 
             <div class="slds-m-right_small slds-is-relative">
-                <button disabled={isDisabled} class="slds-button slds-button_brand slds-theme_blue"
+                <button disabled={isDisabled} class="slds-button slds-button_brand button_blue"
                     onclick={handleClickQuickAddEvent}>
                     Add Event
                     <svg class="slds-button__icon slds-button__icon_right" aria-hidden="true">
@@ -35,24 +35,23 @@
                 <input type="text"
                     name="search"
                     placeholder="Search"
-                    class="slds-input"
+                    class="slds-input slds-m-bottom_xxx-small"
                     value={searchValue}
-                    onchange={hideSuggestions}
-                    oninput={search}
+                    onchange={handleHideSuggestions}
+                    oninput={handleSearch}
                     onfocus={updateSuggestions}
                 />
                 <template if:true={showSuggestions}>
                     <div class="slds-dropdown slds-dropdown_length-10 slds-dropdown_left"
                         style="position: absolute; top: 100%; left: 0; width: 100%; z-index: 1000;">
-                        <ul class="slds-dropdown__list suggestion-list" role="menu">
+                        <ul class="slds-dropdown__list calendar-header__suggestions" role="menu">
                             <template for:each={suggestions} for:item="event">
-                                <li key={event.id} class="suggestion-list__item" onmousedown={selectSuggestion}
+                                <li key={event.id} class="calendar-header__suggestion-item slds-p-bottom_xxx-small" onmousedown={handleSelectSuggestion}
                                     data-event-date={event.date} data-event-id={event.id}>
                                     <a href="#" role="menuitem" tabindex="0" class="slds-dropdown__link"
                                         style="text-decoration:none">
-                                        <span class="slds-truncate title">{event.title}</span>
-                                        <span class="slds-text-body_small date"
-                                            style="display: block; color: #757575;">{event.date}</span>
+                                        <span class="slds-truncate calendar-header__suggestion-title">{event.title}</span>
+                                        <span class="slds-text-body_small calendar-header__suggestion-date">{event.dateLabel}</span>
                                     </a>
                                 </li>
                             </template>

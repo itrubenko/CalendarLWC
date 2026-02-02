@@ -1,29 +1,7 @@
 import { LightningElement, track } from 'lwc';
+import { mockEvents, getFormattedDate } from 'c/utils';
 
 const STORAGE_KEY = 'calendarEvents';
-
-const mockEvents = {
-  "2026-01-08": {
-    "id": "01e34806-413f-4980-a2f6-d58ea12ae163",
-    "date": "2026-01-08",
-    "title": "Test2",
-    "participants": "",
-    "description": "Descr Test2 33"
-  },
-  "2026-01-10": {
-    "id": "01e34806-413f-4980-a2f6-d58ea12ae163",
-    "title": "Test3",
-    "date": "2026-01-10",
-    "participants": "",
-    "description": "Descr Test2 33"
-  }
-};
-
-const getFormattedDate = (date) => {
-  return date.getFullYear() + '-' +
-    String(date.getMonth() + 1).padStart(2, '0') + '-' +
-    String(date.getDate()).padStart(2, '0');
-}
 
 export default class CalendarApp extends LightningElement {
   @track events = {};
@@ -92,6 +70,8 @@ export default class CalendarApp extends LightningElement {
   }
 
   handleSearch(e) {
+    this.closePopover();
+    this.closeQuickAdd();
     this.search = e.detail;
     this.filterEvents();
   }
@@ -120,7 +100,7 @@ export default class CalendarApp extends LightningElement {
     this.showQuickAdd = false;
   }
 
-  saveEvent(e) {
+  handleSaveEvent(e) {
     const evt = e.detail;
     if (evt.date) {
       this.events[evt.date] = evt;
@@ -131,7 +111,7 @@ export default class CalendarApp extends LightningElement {
     }
   }
 
-  deleteEvent(e) {
+  handleDeleteEvent(e) {
     const eventIdToDelete = e.detail;
     const dateToDelete = Object.keys(this.events).find(
       date => this.events[date].id === eventIdToDelete
