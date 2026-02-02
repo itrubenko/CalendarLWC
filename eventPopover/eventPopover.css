@@ -1,0 +1,72 @@
+.slds-popover__title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.slds-popover__title-result {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.slds-popover__form {
+
+    textarea,
+    input {
+        border-color: #DDDBDA;
+        font-size: 12px;
+    }
+
+    input:read-only {
+        background-color: #dddddd;
+        color: #a0a5aa;
+        cursor: not-allowed;
+        border: 1px solid #ddd;
+        padding-left: 10px;
+    }
+
+    button {
+        font-size: 12px;
+    }
+
+    textarea {
+        height: 80px;
+    }
+}
+
+.slds-theme_blue {
+    background: #0C41FF;
+    border-color: #0C41FF;
+}
+
+.slds-theme_blue:hover,
+.slds-theme_outline-blue:hover {
+    background: #00a472;
+    border-color: #00a472;
+    outline: none;
+}
+
+.slds-theme_outline-blue {
+    background: #fff;
+    border-color: #0C41FF;
+}
+
+.slds-theme_outline-blue:hover {
+    color: #fff;
+}
+
+.result-date {
+    font-size: 14px;
+    color: #333333;
+}
+
+.result-participants {
+    .title {
+        color: #717171;
+        font-size: 12px;
+    }
+
+    .list {
+        font-size: 14px;
+    }
+
+}

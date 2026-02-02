@@ -7,13 +7,18 @@ const getFormattedDate = (date) => {
 export default class CalendarHeader extends LightningElement {
   @api month;
   @api events;
-  @api activeDate;
   @api showQuickAdd;
-  @track searchValue = '';
-  @track suggestions = [];
+  activeDate = getFormattedDate(new Date());
+  searchValue = '';
+  suggestions = [];
+  showSuggestions = false;
 
   get label() {
     return this.month.toLocaleString('default', { month: 'long', year: 'numeric' });
+  }
+
+  get isDisabled() {
+    return this.events[this.activeDate];
   }
 
   prev() { this.dispatchEvent(new CustomEvent('prev')); }
@@ -29,13 +34,13 @@ export default class CalendarHeader extends LightningElement {
 
   updateSuggestions() {
     if (this.searchValue.trim()) {
+      this.showSuggestions = this.suggestions.length > 0;
       this.suggestions = Object.values(this.events).filter(event =>
         event.title.toLowerCase().includes(this.searchValue.toLowerCase())
       );
-      this.showSuggestions = this.suggestions.length > 0;
     } else {
-      this.suggestions = [];
       this.showSuggestions = false;
+      this.suggestions = [];
     }
   }
 
@@ -55,8 +60,6 @@ export default class CalendarHeader extends LightningElement {
   }
 
   hideSuggestions() {
-    setTimeout(() => {
-      this.showSuggestions = false;
-    }, 200);
+    this.showSuggestions = false;
   }
 }

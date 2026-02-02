@@ -1,15 +1,15 @@
 <template>
     <div class="slds-grid slds-grid_align-spread calendar-header">
-        <div>
+        <div class="slds-grid slds-grid_vertical-align-center nav-left">
             <lightning-button-icon icon-name="utility:chevronleft" onclick={prev}></lightning-button-icon>
-            <strong class="slds-m-horizontal_small">{label}</strong>
+            <div class="slds-m-horizontal_small calendar-header__label">{label}</div>
             <lightning-button-icon icon-name="utility:chevronright" onclick={next}></lightning-button-icon>
-            <lightning-button label="Today" class="slds-m-left_small" onclick={today}></lightning-button>
+            <button class="slds-m-left_small today" onclick={today}>Today</button>
         </div>
 
-        <div class="slds-grid slds-align-center">
-            <div class="slds-m-right_small slds-is-relative">
-                <button class="slds-button slds-button_brand slds-theme_blue nav-button" onclick={handleEdit}>
+        <div class="slds-grid slds-grid_vertical-align-center nav-right">
+            <div class="slds-m-right_small">
+                <button class="slds-button slds-button_brand slds-theme_blue" onclick={handleEdit}>
                     Edit
                     <svg class="slds-button__icon slds-button__icon_right" aria-hidden="true">
                         <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
@@ -18,11 +18,8 @@
             </div>
 
             <div class="slds-m-right_small slds-is-relative">
-                <button
-                    disabled={isQuickAddDisabled}
-                    class="slds-button slds-button_brand slds-theme_blue nav-button"
-                    onclick={handleClickQuickAddEvent}
-                >
+                <button disabled={isDisabled} class="slds-button slds-button_brand slds-theme_blue"
+                    onclick={handleClickQuickAddEvent}>
                     Add Event
                     <svg class="slds-button__icon slds-button__icon_right" aria-hidden="true">
                         <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#new"></use>
@@ -33,18 +30,29 @@
                 </template>
             </div>
 
+            <div class="slds-is-relative">
 
-            <div style="position: relative;" class="slds-m-left_small">
-                <lightning-input label="Search" variant="label-hidden" type="search" placeholder="Search" value={searchValue} onchange={search} onfocus={updateSuggestions}>
-                </lightning-input>
+                <input type="text"
+                    name="search"
+                    placeholder="Search"
+                    class="slds-input"
+                    value={searchValue}
+                    onchange={hideSuggestions}
+                    oninput={search}
+                    onfocus={updateSuggestions}
+                />
                 <template if:true={showSuggestions}>
-                    <div class="slds-dropdown slds-dropdown_length-10 slds-dropdown_left" style="position: absolute; top: 100%; left: 0; width: 100%; z-index: 1000;">
-                        <ul class="slds-dropdown__list" role="menu">
+                    <div class="slds-dropdown slds-dropdown_length-10 slds-dropdown_left"
+                        style="position: absolute; top: 100%; left: 0; width: 100%; z-index: 1000;">
+                        <ul class="slds-dropdown__list suggestion-list" role="menu">
                             <template for:each={suggestions} for:item="event">
-                                <li key={event.id} class="slds-dropdown__item" onclick={selectSuggestion} data-event-date={event.date} data-event-id={event.id}>
-                                    <a href="#" role="menuitem" tabindex="0" class="slds-dropdown__link">
-                                        <span class="slds-truncate">{event.title}</span>
-                                        <span class="slds-text-body_small" style="display: block; color: #757575;">{event.date}</span>
+                                <li key={event.id} class="suggestion-list__item" onmousedown={selectSuggestion}
+                                    data-event-date={event.date} data-event-id={event.id}>
+                                    <a href="#" role="menuitem" tabindex="0" class="slds-dropdown__link"
+                                        style="text-decoration:none">
+                                        <span class="slds-truncate title">{event.title}</span>
+                                        <span class="slds-text-body_small date"
+                                            style="display: block; color: #757575;">{event.date}</span>
                                     </a>
                                 </li>
                             </template>

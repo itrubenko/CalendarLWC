@@ -1,13 +1,20 @@
 <template>
   <div class="slds-grid slds-wrap calendar-month">
-    <template for:each={days} for:item="day">
-      <c-calendar-day
-        key={day.date}
-        data={day}
-        onselect={selectDay}
-      >
-      </c-calendar-day>
+    <template for:each={days} for:item="day" for:index="index">
+      <div key={day.date} class="slds-is-relative">
+        <c-calendar-day
+          data={day}
+          index={index}
+          onselect={selectDay}>
+        </c-calendar-day>
+
+        <template if:true={day.isPopover}>
+          <c-event-popover
+            event={activeEvent}
+            date={day.date}>
+          </c-event-popover>
+        </template>
+      </div>
     </template>
   </div>
-
 </template>

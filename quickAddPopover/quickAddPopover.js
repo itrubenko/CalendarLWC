@@ -7,12 +7,35 @@ const getFormattedDate = (date) => {
 }
 
 export default class QuickAddPopover extends LightningElement {
-  @api isGlobalPopover;
   title = '';
+
+  get placeholder() {
+    const date = new Date();
+    const formatted =  date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric'
+    });
+
+    return `${formatted}, New Event`;
+  }
+
+  get isSubmitDisabled() {
+    return !this.title;
+  }
+
+  handleCloseQuickPopover(e) {
+    this.dispatchEvent(
+        new CustomEvent('close', {
+            bubbles: true,
+            composed: true
+        })
+    );
+  }
 
   change(e) { this.title = e.target.value; }
 
-  handleSave() {
+  handleFormSubmit(e) {
+    e.preventDefault();
     this.dispatchEvent(new CustomEvent('save', {
       detail: {
         id: crypto.randomUUID(),
@@ -26,9 +49,7 @@ export default class QuickAddPopover extends LightningElement {
     }));
   }
 
-  get popoverClass() {
-    return this.isGlobalPopover
-      ? 'slds-popover slds-popover_panel slds-nubbin_bottom-left'
-      : 'slds-popover slds-popover_panel slds-nubbin_top-left';
+  onInputEvent(e) {
+    this.title = e.target.value;
   }
 }

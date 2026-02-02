@@ -1,6 +1,17 @@
 .event {
-  background: #c7f5d9;
+  text-wrap: nowrap;
   padding: 4px;
   border-radius: 4px;
-  cursor: pointer;
+  font-size: 10px;
+  max-height: 66px;
+  line-height: 1.5em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 4;
+}
+
+.description {
+  font-style: italic;
 }

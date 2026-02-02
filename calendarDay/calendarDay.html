@@ -1,6 +1,6 @@
 <template>
-    <div class="day" onclick={handleClick} data-date={data.date}>
-        <div class="label">{data.day}</div>
+    <div class="day" onclick={handleClick} data-date={data.date} data-has-event={data.hasEvent}>
+        <div class="label">{dateLabel}</div>
 
         <template if:true={data.event}>
             <c-event-card event={data.event}></c-event-card>

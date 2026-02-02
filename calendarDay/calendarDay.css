@@ -12,3 +12,15 @@
     }
 }
 
+.day:hover {
+    background-color: #EDE7D6;
+}
+
+.day:has(.event) {
+    background: #c7f5d9;
+    cursor: pointer;
+}
+
+.day:has:hover {
+    background-color: initial;
+}

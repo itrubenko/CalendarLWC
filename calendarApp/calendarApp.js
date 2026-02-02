@@ -35,13 +35,11 @@ export default class CalendarApp extends LightningElement {
   activeEvent;
   showPopover = false;
   showQuickAdd = false;
-  isGlobalPopover = true;
   isQuickAddDisabled = false;
   popoverPosition = { top: 0, left: 0 };
 
   connectedCallback() {
     this.events = JSON.parse(localStorage.getItem(STORAGE_KEY)) || mockEvents;
-    // this.isQuickAddDisabled = !!this.events[getFormattedDate(new Date())];
     this.filterEvents();
   }
 
@@ -50,7 +48,6 @@ export default class CalendarApp extends LightningElement {
   }
 
   persist() {
-    // Ensure all events have properly formatted structure
     const cleanedEvents = {};
     Object.entries(this.events).forEach(([date, event]) => {
       cleanedEvents[date] = {
@@ -120,65 +117,7 @@ export default class CalendarApp extends LightningElement {
     this.activeDate = e.detail;
     this.activeEvent = this.events[e.detail];
     this.showPopover = true;
-    // Calculate position after DOM updates
-    setTimeout(() => this.calculatePopoverPosition(), 0);
-  }
-
-  calculatePopoverPosition() {
-    const monthComponent = this.template.querySelector('c-calendar-month');
-    if (!monthComponent) return;
-
-    // Find all day elements and locate the one with activeDate
-    const dayElements = monthComponent.shadowRoot?.querySelectorAll('[data-date]') || [];
-    let targetElement = null;
-
-    for (const dayEl of dayElements) {
-      if (dayEl.getAttribute('data-date') === this.activeDate) {
-        targetElement = dayEl;
-        break;
-      }
-    }
-
-    // If not found by data attribute, try to find by content
-    if (!targetElement) {
-      const allDays = monthComponent.shadowRoot?.querySelectorAll('.day') || [];
-      for (const dayEl of allDays) {
-        if (dayEl.textContent && dayEl.textContent.includes(this.activeDate?.split('-')[2])) {
-          targetElement = dayEl;
-          break;
-        }
-      }
-    }
-
-    if (targetElement) {
-      const rect = targetElement.getBoundingClientRect();
-      const container = this.template.querySelector('.calendar');
-      const containerRect = container.getBoundingClientRect();
-
-      this.popoverPosition = {
-        top: rect.top - containerRect.top + rect.height + 8,
-        left: rect.left - containerRect.left
-      };
-    }
-  }
-
-  setPopoverPosition(e) {
-    // Backup method - try to get position from event target
-    let target = e.target;
-    while (target && !target.classList?.contains('day') && !target.classList?.contains('event-card')) {
-      target = target.parentElement;
-    }
-    
-    if (target) {
-      const rect = target.getBoundingClientRect();
-      const container = this.template.querySelector('.calendar');
-      const containerRect = container.getBoundingClientRect();
-      
-      this.popoverPosition = {
-        top: rect.top - containerRect.top + rect.height + 8,
-        left: rect.left - containerRect.left
-      };
-    }
+    this.showQuickAdd = false;
   }
 
   saveEvent(e) {
@@ -206,10 +145,10 @@ export default class CalendarApp extends LightningElement {
   }
 
   openQuickAdd() {
+    this.closePopover();
     this.activeDate = getFormattedDate(new Date());
     this.showQuickAdd = true;
   }
-
 
   closePopover() {
     this.showPopover = false;

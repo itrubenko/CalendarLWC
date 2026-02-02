@@ -10,6 +10,9 @@ const getFormattedDate = (date) => {
 export default class CalendarMonth extends LightningElement {
   @api month;
   @api events;
+  @api activeEvent;
+  @api activeDate;
+  @api showPopover;
 
   get days() {
     const start = new Date(this.month.getFullYear(), this.month.getMonth(), 1);
@@ -24,7 +27,9 @@ export default class CalendarMonth extends LightningElement {
       return {
         date: iso,
         day: d.getDate(),
-        event
+        event,
+        hasEvent: !!event,
+        isPopover: this.activeDate === iso && this.showPopover
       };
     });
   }

@@ -1,17 +1,30 @@
 <template>
-    <section aria-label="Dialog title" aria-describedby="popover-body-id" class="slds-popover slds-popover_panel slds-nubbin_top slds-is-absolute"
-        role="dialog" style="padding: 1rem; margin-top: 40%;transform: translateX(-70%);">
+    <section aria-label="Dialog title" class="slds-popover slds-popover_panel slds-nubbin_top slds-is-absolute nav-right"
+        role="dialog" style="padding: 1rem; margin-top: 45%;transform: translateX(-65%);">
         <button
             class="slds-button slds-button_icon slds-button_icon slds-button_icon-small slds-float_right slds-popover__close"
-            title="Close dialog">
+            title="Close dialog" onclick={handleCloseQuickPopover}>
             <svg class="slds-button__icon" aria-hidden="true">
                 <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="slds-assistive-text">Close dialog</span>
         </button>
-        <div id="popover-body-id" class="slds-popover__body">
-            <lightning-input label="Event Name" onchange={change} variant="label-hidden"></lightning-input>
-            <lightning-button label="Add Event" variant="brand" onclick={handleSave}></lightning-button>
+        <div class="slds-popover__body">
+            <form onsubmit={handleFormSubmit}>
+                <input type="text"
+                    name="eventName"
+                    placeholder={placeholder}
+                    class="slds-input slds-m-bottom_medium"
+                    value={title}
+                    oninput={onInputEvent}
+                />
+
+                <button disabled={isSubmitDisabled}
+                    class="slds-button slds-button_brand slds-theme_blue"
+                >
+                    Add Event
+                </button>
+            </form>
         </div>
     </section>
 </template>

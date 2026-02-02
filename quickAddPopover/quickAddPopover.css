@@ -1,0 +1,37 @@
+.nav-right button,
+.nav-right input {
+    font-size: 12px;
+}
+
+.search-input input {
+    font-size: 12px;   /* change to whatever you need */
+}
+
+.search-input input::placeholder {
+    font-size: 12px;
+}
+
+.search-input input::placeholder,
+.search-input input {
+    --slds-c-input-font-size: 12px;
+}
+
+
+.slds-theme_blue {
+    background: #0C41FF;
+    border-color: #0C41FF;
+}
+
+.slds-theme_blue:disabled {
+    background-color: #b2aeaa;
+    border-color: #b2aeaa;
+    color: white;
+}
+
+
+.slds-theme_blue:not(:disabled):hover,
+.slds-theme_outline-blue:not(:disabled):hover {
+    background: #00a472;
+    border-color: #00a472;
+    outline: none;
+}

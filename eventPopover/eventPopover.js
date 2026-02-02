@@ -13,19 +13,21 @@ export default class EventPopover extends LightningElement {
     this.updateFromEvent();
   }
 
-  @track id = crypto.randomUUID();
-  @track title = '';
-  @track participants = '';
-  @track description = '';
+  id = crypto.randomUUID();
+  title = '';
+  participants = '';
+  description = '';
 
   connectedCallback() {
     this.updateFromEvent();
   }
 
-  get isNewEvent() {
-    return !this.event;
+  get isDisabled() {
+    return !this.title;
   }
-
+  get getFormLabel() {
+    return this._event ? 'Update Event' : 'Add Event';
+  }
   get formattedDate() {
     if (!this.date) return '';
     const dateObj = new Date(this.date);
@@ -46,23 +48,29 @@ export default class EventPopover extends LightningElement {
     }
   }
 
-  change(e) {
-    const label = e.target.label.toLowerCase();
-    const value = e.target.value;
+  handleSubmit(e) {
+    e.preventDefault();
+    // 1. Get submitted data using FormData (recommended)
+    const formData = new FormData(e.currentTarget);
+    const dataObject = {};
 
-    // Map label to property name
-    if (label === 'event name') {
-      this.title = value;
-    } else if (label === 'day, month, year') {
-      // Don't allow editing date in existing event view
-      if (!this.event) {
-        this.date = value;
-      }
-    } else if (label === 'participants') {
-      this.participants = value;
-    } else if (label === 'description') {
-      this.description = value;
-    }
+    // Iterate over formData and convert to a regular JavaScript object
+    formData.forEach((value, key) => {
+        dataObject[key] = value;
+    });
+
+    let detail = { ...{id: this.id} ,  ...dataObject}
+    this.dispatchEvent(new CustomEvent('save', {
+      detail,
+      bubbles: true,
+      composed: true
+    }));
+  }
+
+  change(e) {
+    const formId = e.target.dataset.id;
+    const value = e.target.value;
+    this[formId] = value;
   }
 
   save() {
@@ -80,6 +88,16 @@ export default class EventPopover extends LightningElement {
   }
 
   remove() {
-      this.dispatchEvent(new CustomEvent('delete', { detail: this.id }));
+    this.dispatchEvent(
+      new CustomEvent('delete', {
+        detail: this.id,
+        bubbles: true,
+        composed: true
+      })
+    );
+  }
+
+  handleClose() {
+    this.dispatchEvent(new CustomEvent('close'));
   }
 }
